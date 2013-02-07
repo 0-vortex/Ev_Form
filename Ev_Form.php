@@ -359,7 +359,7 @@ class Ev_Form
             {
                 $return .= '<option value="' . $o['id'] . '"'
                          . (strval($o['id']) === strval($value) ? ' selected="selected"' : '')
-                         . '">' . $o['name'] . '</option>';
+                         . '>' . $o['name'] . '</option>';
             }
         }
 
@@ -375,9 +375,9 @@ class Ev_Form
                 if ($tag != null)
                 {
                     $array = array(
-                        'h' => '<div>' . (isset($n['class']) && ! empty($n['class']) ? 'class="' . $n['class'] . '"' : '') . '><dt>',
+                        'h' => '<dt>',
                         'c' => '</dt><dd>',
-                        'f' => '</dd></div>'
+                        'f' => '</dd>'
                     );
 
                     break;
@@ -432,6 +432,19 @@ class Ev_Form
         }
 
         switch ($tag) {
+            case $array[] = 'div':
+                if ($tag != null) {
+                    $array = array(
+                        'h' => '<div>' . $outside . '<dl '
+                             . (isset($n['class']) && ! empty($n['class']) ? ' class="' . $n['class'] . '"' : '')
+                             . (isset($n['id']) && ! empty($n['id']) ? ' id="' . $n['id'] . '"' : '')
+                             . '>' . $inside,
+                        'f' => '</dl></div>'
+                    );
+
+                    break;
+                }
+
             case $array[] = 'definition list':
                 if ($tag != null) {
                     $array = array(
