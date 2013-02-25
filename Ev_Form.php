@@ -20,7 +20,7 @@ class Ev_Form
                     'message' => 'Campul poate contine numai litere, spatii si semne de punctuatie.'
             ),
             'username' => array(
-                    'rule' => '%^[\p{L}\p{N}]$%',
+                    'rule' => '%^[\p{L}\p{N}]+$%',
                     'message' => 'Campul poate contine numai litere si cifre.'
             ),
             'password' => array(
