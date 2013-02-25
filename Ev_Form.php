@@ -20,7 +20,7 @@ class Ev_Form
                     'message' => 'Campul poate contine numai litere, spatii si semne de punctuatie.'
             ),
             'username' => array(
-                    'rule' => '%^[\p{L}\p{N}]+$%',
+                    'rule' => '%^[\p{L}\p{N}]$%',
                     'message' => 'Campul poate contine numai litere si cifre.'
             ),
             'password' => array(
@@ -60,7 +60,7 @@ class Ev_Form
                     'message' => 'Este necesar sa bifati cel putin o casuta.'
             ),
             'date' => array(
-                    'rule' => '%^([0-9]{2})[\/\.]([0-9]{2})[\/\.]([0-9]{4})$%',
+                    'rule' => '%^([0-9]{2})[/\.-]([0-9]{2})[/\.-]([0-9]{4})$%',
                     'message' => 'Data nu este corecta.'
             ),
             'iban' => array(
@@ -161,13 +161,17 @@ class Ev_Form
 
     public function get_attributes ($n, $key = 0)
     {
-        $return = array();
+        $return = $class = array();
 
         if (! isset($n['id'])) {
             return false;
         }
 
         else {
+            if (isset($n['class'])) {
+                $class[] = $n['class'];
+            }
+
             if (isset($n['type']) && in_array($n['type'], $this->checkboxRadio) && isset($n['multiple']) && $n['multiple'])
             {
                 $return[] = 'name="' . $n['id'] . '[]"';
@@ -258,11 +262,15 @@ class Ev_Form
 
             if (isset($this->error[$n['id']]) && $this->error[$n['id']] != '')
             {
-                $return[] = 'class="error"';
+                $class[] = 'error';
             }
 
             else {
-                $return[] = 'class="normal"';
+                $class[] = 'normal';
+            }
+
+            if (! empty($class)) {
+                $return[] = 'class="' . implode(' ', $class) . '"';
             }
 
             return implode(' ', $return);
@@ -435,10 +443,10 @@ class Ev_Form
             case $array[] = 'div':
                 if ($tag != null) {
                     $array = array(
-                        'h' => '<div>' . $outside . '<dl '
+                        'h' => '<div'
                              . (isset($n['class']) && ! empty($n['class']) ? ' class="' . $n['class'] . '"' : '')
                              . (isset($n['id']) && ! empty($n['id']) ? ' id="' . $n['id'] . '"' : '')
-                             . '>' . $inside,
+                             . '>' . $outside . '<dl class="cf">' . $inside,
                         'f' => '</dl></div>'
                     );
 
